@@ -1,0 +1,2 @@
+// - added last version of kafka
+KAFKA_VERSION=3.9.1 docker-compose up -d
