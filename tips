@@ -1,2 +1,11 @@
 // - added last version of kafka
 KAFKA_VERSION=3.9.1 docker-compose up -d
+
+// - connect to container
+docker exec -it c85a8c379281 bash   // c85a8c379281 ID Container
+
+// - topic created my-topic
+/opt/kafka/bin/kafka-topics.sh --create --topic my-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+
+// - check created topic
+/opt/kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092
