@@ -9,8 +9,8 @@ services:
     environment:
       KAFKA_NODE_ID: "1"
       KAFKA_PROCESS_ROLES: "broker,controller"
-      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,JMX://0.0.0.0:9094"
-      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092,CONTROLLER://broker:9093,JMX://localhost:9094"
+      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,JMX://0.0.0.0:9095"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092,CONTROLLER://broker:9093,JMX://localhost:9095"
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,JMX:PLAINTEXT"
       KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker:9093"
@@ -19,15 +19,15 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: "0"
       KAFKA_NUM_PARTITIONS: "3"
-      KAFKA_OPTS: "-javaagent:/jmx/jmx_prometheus_javaagent-0.19.0.jar=9094:/jmx/jmx-config.yaml"
+      KAFKA_OPTS: "-javaagent:/jmx/jmx_prometheus_javaagent-1.2.0.jar=9094:/jmx/jmx-config.yaml"
     volumes:
       - ./jmx:/jmx
   prometheus:
-      image: prom/prometheus:latest
-      ports:
-        - "9090:9090"
-      volumes:
-        - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      depends_on:
-        - kafka
-      network_mode: "bridge"
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - kafka
+    network_mode: "bridge"
