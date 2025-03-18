@@ -3,6 +3,7 @@ KAFKA_VERSION=3.9.1 docker-compose up -d
 
 // - connect to container
 docker exec -it c85a8c379281 bash   // c85a8c379281 ID Container
+docker exec -it 866743a84019 bash
 
 // - topic created my-topic
 /opt/kafka/bin/kafka-topics.sh --create --topic my-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
