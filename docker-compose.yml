@@ -5,12 +5,12 @@ services:
     ports:
       - "9092:9092"
       - "9093:9093"
-      - "9094:9094"
+      - "9095:9095" # added for jmx
     environment:
       KAFKA_NODE_ID: "1"
       KAFKA_PROCESS_ROLES: "broker,controller"
       KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,JMX://0.0.0.0:9095"
-      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092,CONTROLLER://broker:9093,JMX://localhost:9095"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://broker:9092,CONTROLLER://broker:9093,JMX://0.0.0.0:9095"
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,JMX:PLAINTEXT"
       KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker:9093"
@@ -22,8 +22,8 @@ services:
       KAFKA_OPTS: "-javaagent:/jmx/jmx_prometheus_javaagent-1.2.0.jar=9151:/jmx/jmx-config.yaml"
     volumes:
       - ./jmx:/jmx
-      - ./create-topics.sh:/create-topics.sh # Монтирование скрипта
-    entrypoint: ["/bin/sh", "-c", "/create-topics.sh && /opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties"] # entrypoint
+      - ./create-topics.sh:/create-topics.sh
+    entrypoint: ["/bin/sh", "-c", "/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties"] # entrypoint changed
     # Prometheus settings
   prometheus:
     image: prom/prometheus:latest
